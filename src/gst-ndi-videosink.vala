@@ -1,4 +1,4 @@
-namespace Gst.NDI {
+namespace Gst.PluginNDI {
     class VideoSink : Gst.Video.Sink {
         static construct {
             set_static_metadata (
@@ -34,7 +34,7 @@ namespace Gst.NDI {
         }
 
         construct {
-            Processing.NDI.initialize ();
+            NDI.initialize ();
         }
     }
 }

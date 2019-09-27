@@ -11,6 +11,6 @@ const Gst.PluginDesc gst_plugin_desc = {
 };
 
 public static bool plugin_init (Gst.Plugin p) {
-    Gst.Element.register (p, "ndivideosink", Gst.Rank.NONE, typeof(Gst.NDI.VideoSink));
+    Gst.Element.register (p, "ndivideosink", Gst.Rank.NONE, typeof(Gst.PluginNDI.VideoSink));
     return true;
 }
