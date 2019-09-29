@@ -60,7 +60,10 @@ namespace Gst.PluginNDI {
             frame.pixel_format = NDI.FourCCPixelFormat.RGBA;
             frame.line_stride_in_bytes = width * 4;
             buffer_size = width * height * 4;
-            frame.data = malloc (buffer_size);
+
+            if (frame.data != null) {
+                free (frame.data);
+            }
 
             return base.set_caps (caps);
         }
@@ -68,6 +71,7 @@ namespace Gst.PluginNDI {
         public override Gst.FlowReturn render (Gst.Buffer buffer) {
             buffer.extract_dup (0, buffer_size, out frame.data);
             sender.send_video_v2 (frame);
+            free (frame.data);
             return Gst.FlowReturn.OK;
         }
 
