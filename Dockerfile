@@ -7,6 +7,6 @@ WORKDIR /build
 RUN meson build; ninja -C build;
 
 FROM libndi:latest
-RUN apt-get update && apt-get install -y --no-install-recommends gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libavahi-common3 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libavahi-common3 libavahi-client3 && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /build/build/libgstndi.so /usr/lib/x86_64-linux-gnu/gstreamer-1.0/
