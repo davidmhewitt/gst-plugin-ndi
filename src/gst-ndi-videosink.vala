@@ -15,6 +15,7 @@ namespace Gst.PluginNDI {
 
             var caps = new Gst.Caps.empty ();
 
+            // Advertise support any video dimensions and frame rate
             var struc = new Gst.Structure (
                 "video/x-raw",
                 "width", typeof (Gst.IntRange), 0, int32.MAX,
@@ -22,8 +23,17 @@ namespace Gst.PluginNDI {
                 "framerate", typeof (Gst.FractionRange), 0, 1, int32.MAX, 1
             );
 
+            // Advertise our supported pixel formats
             var list = GLib.Value (typeof (Gst.ValueList));
+            Gst.ValueList.append_value (list, "UYVY");
+            Gst.ValueList.append_value (list, "YV12");
+            Gst.ValueList.append_value (list, "I420");
+            Gst.ValueList.append_value (list, "NV12");
+            Gst.ValueList.append_value (list, "BGRA");
+            Gst.ValueList.append_value (list, "BGRx");
             Gst.ValueList.append_value (list, "RGBA");
+            Gst.ValueList.append_value (list, "RGBx");
+
             struc.set_value ("format", list);
 
             caps.append_structure ((owned)struc);
@@ -39,6 +49,8 @@ namespace Gst.PluginNDI {
         }
 
         public override bool set_caps (Gst.Caps caps) {
+            warning (caps.to_string ());
+
             unowned Gst.Structure struc = caps.get_structure (0);
             int width, height, frame_rate_n, frame_rate_d;
             if (!struc.get_int ("width", out width)) {
@@ -54,12 +66,58 @@ namespace Gst.PluginNDI {
                 frame.frame_rate_D = frame_rate_d;
             }
 
+            var format = struc.get_string ("format");
+            if (format == null) {
+                return false;
+            }
+
+            switch (format) {
+                case "BGRA":
+                    frame.pixel_format = NDI.FourCCPixelFormat.BGRA;
+                    frame.line_stride_in_bytes = width * 4;
+                    buffer_size = width * height * 4;
+                    break;
+                case "BGRx":
+                    frame.pixel_format = NDI.FourCCPixelFormat.BGRX;
+                    frame.line_stride_in_bytes = width * 4;
+                    buffer_size = width * height * 4;
+                    break;
+                case "RGBA":
+                    frame.pixel_format = NDI.FourCCPixelFormat.RGBA;
+                    frame.line_stride_in_bytes = width * 4;
+                    buffer_size = width * height * 4;
+                    break;
+                case "RGBx":
+                    frame.pixel_format = NDI.FourCCPixelFormat.RGBX;
+                    frame.line_stride_in_bytes = width * 4;
+                    buffer_size = width * height * 4;
+                    break;
+                case "I420":
+                    frame.pixel_format = NDI.FourCCPixelFormat.I420;
+                    frame.line_stride_in_bytes = width;
+                    buffer_size = width * height * 3;
+                    break;
+                case "NV12":
+                    frame.pixel_format = NDI.FourCCPixelFormat.NV12;
+                    frame.line_stride_in_bytes = width;
+                    buffer_size = width * height * 3;
+                    break;
+                case "UYVY":
+                    frame.pixel_format = NDI.FourCCPixelFormat.UYVY;
+                    frame.line_stride_in_bytes = width * 2;
+                    buffer_size = width * height * 2;
+                    break;
+                case "YV12":
+                    frame.pixel_format = NDI.FourCCPixelFormat.YV12;
+                    frame.line_stride_in_bytes = width;
+                    buffer_size = width * height * 2;
+                    break;
+                default:
+                    return false;
+            }
+
             frame.xres = width;
             frame.yres = height;
-
-            frame.pixel_format = NDI.FourCCPixelFormat.RGBA;
-            frame.line_stride_in_bytes = width * 4;
-            buffer_size = width * height * 4;
 
             if (frame.data != null) {
                 free (frame.data);
