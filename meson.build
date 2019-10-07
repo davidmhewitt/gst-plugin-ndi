@@ -15,6 +15,7 @@ dependencies = [
 sources = files(
     'src/gst-plugin-ndi.vala',
     'src/gst-ndi-videosink.vala',
+    'src/gst-ndi-sink.vala',
 )
 
 shared_library('gstndi', sources,

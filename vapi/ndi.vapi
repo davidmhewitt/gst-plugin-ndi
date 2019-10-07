@@ -22,6 +22,8 @@ namespace NDI {
         public static Send? create (Options options = {null, null, true, true});
 
         public void send_video_v2 (VideoFrameV2 frame);
+        [CCode (cname="NDIlib_util_send_send_audio_interleaved_16s")]
+        public void send_audio_interleaved_16s (AudioFrameInterleaved16S frame);
     }
 
     [CCode (cname="NDIlib_video_frame_v2_t", destroy_function="")]
@@ -36,7 +38,7 @@ namespace NDI {
         [CCode (cname="frame_format_type")]
         VideoFrameFormat type;
         int64 timecode;
-        [CCode (cname="p_data", array_length=false)]
+        [CCode (cname="p_data")]
         uint8* data;
         int line_stride_in_bytes;
         int data_size_in_bytes;
@@ -58,6 +60,29 @@ namespace NDI {
                 line_stride_in_bytes = 0,
                 metadata = null,
                 timestamp = 0
+            };
+        }
+    }
+
+    [CCode (cname="NDIlib_audio_frame_interleaved_16s_t", destroy_function="")]
+    public struct AudioFrameInterleaved16S {
+	    int sample_rate;
+	    int no_channels;
+	    int no_samples;
+	    int64 timecode;
+	    int reference_level;
+
+        [CCode (cname="p_data")]
+	    int16* data;
+
+        public static AudioFrameInterleaved16S create_default () {
+            return AudioFrameInterleaved16S () {
+                sample_rate = 48000,
+                no_channels = 2,
+                no_samples = 0,
+                timecode = Send.TIMECODE_SYNTHESIZE,
+                reference_level = 0,
+                data = null
             };
         }
     }
