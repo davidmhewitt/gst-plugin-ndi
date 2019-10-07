@@ -95,7 +95,6 @@ namespace Gst.PluginNDI {
                 return Gst.FlowReturn.OK;
             } else if (data.pad.template == get_pad_template ("audio_%u")) {
                 var n_samples = buffer.get_size () / audio_frame.no_channels / sizeof(int16);
-                warning (n_samples.to_string ());
                 audio_frame.no_samples = (int)n_samples;
                 buffer.extract_dup (0, buffer.get_size (), out audio_frame.data);
                 sender.send_audio_interleaved_16s (audio_frame);
