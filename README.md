@@ -5,7 +5,23 @@ A **WIP** plugin for gstreamer written in Vala to add support for [NewTek](https
 This has not been tested in any production use cases and is currently a very early prototype. No thought or testing has been put into A/V sync yet (it may work, or it may drift, or it may just be completely wrong to start with).
 
 ## Building
+### Compilation
+Ensure the necessary dependencies are installed:
+* pkg-config 
+* meson 
+* valac 
+* libgstreamer1.0-dev 
+* libgstreamer-plugins-base1.0-dev
+* NDI SDK (installed as per the [Installing NDI SDK section](#installing-ndi-sdk) below)
 
+Run `meson build` to configure the build environment. Change to the build directory and run `ninja` to build.
+```
+meson build --prefix=/usr
+cd build
+ninja
+```
+
+To install, copy `libgstndi.so` to the Gstreamer plugins directory (`/usr/lib/x86_64-linux-gnu/gstreamer-1.0/` on Ubuntu).
 
 ### Docker
 The included Dockerfile depends on an unpublished container called `libndi`. I have opted to not publish this container due to the licensing around the NDI SDK. However, if you wish to use the Dockerfile in this repository, you can build your own `libndi` image that has the NDI SDK installed  as per the instructions below.
@@ -29,5 +45,3 @@ Cflags: -I${includedir}
 ```
 * Install the NDI SDK shared libraries (`.so` files) into `/usr/lib/x86_64-linux-gnu/`
 * Install the NDI SDK header files (`.h` files) into `/usr/include/libndi`
-
-Alternatively, you can perform the same steps as above on your host machine to compile and run the plugin outside of a Docker container.
