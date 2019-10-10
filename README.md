@@ -24,7 +24,7 @@ ninja
 To install, copy `libgstndi.so` to the Gstreamer plugins directory (`/usr/lib/x86_64-linux-gnu/gstreamer-1.0/` on Ubuntu).
 
 ### Docker
-The included Dockerfile depends on an unpublished container called `libndi`. I have opted to not publish this container due to the licensing around the NDI SDK. However, if you wish to use the Dockerfile in this repository, you can build your own `libndi` image that has the NDI SDK installed  as per the instructions below.
+The included Dockerfile depends on an unpublished Docker image called `libndi`. I have opted to not publish this due to the licensing around the NDI SDK. However, if you wish to use the Dockerfile in this repository, you can build your own `libndi` image that has the NDI SDK installed as per the instructions below.
 
 ### Installing NDI SDK
 * You need to have `libavahi-common3` and `libavahi-client3` installed. These are dependencies of the NDI SDK.
