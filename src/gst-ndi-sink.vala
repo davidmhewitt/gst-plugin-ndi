@@ -167,7 +167,7 @@ namespace Gst.PluginNDI {
         }
 
         public override Gst.Pad? request_pad (Gst.PadTemplate tmpl, string? req_name, Gst.Caps? caps) {
-            if (tmpl.direction != Gst.Pad.SINK) {
+            if (tmpl.direction != Gst.PadDirection.SINK) {
                 warning ("ndisink: Received a request for a pad that is not a SINK pad");
                 return null;
             }
