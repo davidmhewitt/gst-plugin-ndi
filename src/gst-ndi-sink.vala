@@ -195,7 +195,7 @@ namespace Gst.PluginNDI {
             }
 
             var newpad = new Gst.Pad.from_template (tmpl, pad_name);
-            var collect_data = collect.add_pad (newpad, (uint)sizeof (Gst.Base.CollectData), null, true);
+            unowned Gst.Base.CollectData? collect_data = collect.add_pad (newpad, (uint)sizeof (Gst.Base.CollectData), null, true);
 
             if (collect_data == null) {
                 warning ("ndisink: Unable to add new pad to CollectPad");
