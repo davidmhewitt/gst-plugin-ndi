@@ -41,14 +41,14 @@ namespace Gst.PluginNDI {
 
             // Prepare a list of our supported pixel formats
             var pixel_format_list = GLib.Value (typeof (Gst.ValueList));
-            Gst.ValueList.append_value (pixel_format_list, "UYVY");
-            Gst.ValueList.append_value (pixel_format_list, "YV12");
-            Gst.ValueList.append_value (pixel_format_list, "I420");
-            Gst.ValueList.append_value (pixel_format_list, "NV12");
-            Gst.ValueList.append_value (pixel_format_list, "BGRA");
-            Gst.ValueList.append_value (pixel_format_list, "BGRx");
-            Gst.ValueList.append_value (pixel_format_list, "RGBA");
-            Gst.ValueList.append_value (pixel_format_list, "RGBx");
+            Gst.ValueList.append_value (ref pixel_format_list, "UYVY");
+            Gst.ValueList.append_value (ref pixel_format_list, "YV12");
+            Gst.ValueList.append_value (ref pixel_format_list, "I420");
+            Gst.ValueList.append_value (ref pixel_format_list, "NV12");
+            Gst.ValueList.append_value (ref pixel_format_list, "BGRA");
+            Gst.ValueList.append_value (ref pixel_format_list, "BGRx");
+            Gst.ValueList.append_value (ref pixel_format_list, "RGBA");
+            Gst.ValueList.append_value (ref pixel_format_list, "RGBx");
 
             // Advertise support any video dimensions and frame rate
             var video_struc = new Gst.Structure (
@@ -65,7 +65,7 @@ namespace Gst.PluginNDI {
 
             // Prepare a list of our supported pixel formats
             var audio_format_list = GLib.Value (typeof (Gst.ValueList));
-            Gst.ValueList.append_value (audio_format_list, "S16LE");
+            Gst.ValueList.append_value (ref audio_format_list, "S16LE");
 
             var audio_struc = new Gst.Structure (
                 "audio/x-raw",
