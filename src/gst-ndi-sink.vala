@@ -301,10 +301,6 @@ namespace Gst.PluginNDI {
             video_frame.xres = width;
             video_frame.yres = height;
 
-            if (video_frame.data != null) {
-                free (video_frame.data);
-            }
-
             return true;
         }
     }
